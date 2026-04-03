@@ -5,6 +5,7 @@ permalink: /about/
 ---
 
 <div style="text-align:center; margin-bottom: 1.5em;">
+  <img src="/images/zhanli.jpg" alt="Personal photo of Yu Zhang" style="width:160px; border-radius:8px; margin-bottom:0.8em;" />
   <h1 style="font-size:2em; margin-bottom:0.2em;">Yu Zhang &nbsp; 张宇</h1>
   <p style="margin:0.2em 0;">✉ <a href="mailto:z.y@buaa.edu.cn">z.y@buaa.edu.cn</a></p>
   <p style="margin:0.2em 0;">📱 +86 183 4291 0562</p>
