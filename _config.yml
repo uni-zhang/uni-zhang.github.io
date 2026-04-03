@@ -30,9 +30,9 @@ footer-links:
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
   youtube: # channel/<your_long_string> or user/<user-name>
   googleplus: # anything in your profile username that comes after plus.google.com/
-  researchgate: Zhang-Uni
-  googlescholar: ykPPoH8AAAAJ
-  orcid: 0000-0002-1825-0097
+  researchgate: Zhang-Uni # your ResearchGate profile name from researchgate.net/profile/<name>
+  googlescholar: ykPPoH8AAAAJ # your Google Scholar user ID from scholar.google.com/citations?user=<id>
+  orcid: 0000-0002-1825-0097 # your ORCID iD, e.g. 0000-0002-1825-0097
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
