@@ -1,18 +1,89 @@
 ---
 layout: default
+title: Home
 ---
 
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
+<div class="profile-section">
+  <div class="profile-photo-col">
+    <img src="{{ site.avatar }}" alt="Profile photo of Yu Zhang, PhD Candidate at Beihang University" class="profile-photo" />
+    <div class="profile-links">
+      <a href="mailto:{{ site.footer-links.email }}">✉ {{ site.footer-links.email }}</a>
+      <a href="https://scholar.google.com/citations?user={{ site.footer-links.googlescholar }}" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/{{ site.footer-links.researchgate }}" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/{{ site.footer-links.orcid }}" target="_blank">ORCID</a>
+      <a href="https://github.com/{{ site.footer-links.github }}" target="_blank">GitHub</a>
+    </div>
+  </div>
 
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+  <div class="profile-bio-col">
+    <h1 class="profile-name">Yu Zhang &nbsp;<span class="profile-name-zh">张宇</span></h1>
+    <p class="profile-affiliation">
+      PhD Candidate · School of Economics and Management<br>
+      <strong>Beihang University</strong>, Beijing, China
+    </p>
+    <p class="profile-affiliation">
+      Former Visiting PhD · ABE, Transport Planning<br>
+      <strong>KTH Royal Institute of Technology</strong>, Stockholm, Sweden (2024–2025)
+    </p>
 
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
+    <hr class="profile-divider" />
 
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-    </article>
-  {% endfor %}
+    <h2>Research Interests</h2>
+    <p>
+      I study large-scale real-time <strong>on-demand mobility systems</strong> (ride-hailing &amp; ride-sharing).
+      My work covers dynamic ride-matching modeling, matching algorithm design, travel demand forecasting,
+      mechanism design, and the coordination of multi-modal intelligent transportation systems —
+      including integration of ground-based ride-hailing with <strong>urban air mobility (UAM)</strong>.
+    </p>
+
+    <hr class="profile-divider" />
+
+    <h2>Selected Publications</h2>
+    <ul class="pub-list">
+      <li>
+        <strong>Yu Zhang</strong>, Guo R-Y, Wu P-Y, Ma Z.
+        Modeling and solving large-scale one-to-many dispatching problem with low latency on ride-sharing platforms.
+        <em>IEEE Transactions on Intelligent Transportation Systems</em>.
+        <span class="pub-badge">JCR Q1 · IF 8.4 · Accepted</span>
+      </li>
+      <li>
+        <strong>Yu Zhang</strong>, Guo R-Y. (2024).
+        A one-to-many ride-sharing matching method based on current sharing rate and predicted demand density.
+        <em>Systems Engineering — Theory &amp; Practice</em>, 44(12): 3979–3996.
+        <span class="pub-badge">EI · CSCD · CSSCI</span>
+      </li>
+      <li>
+        Guo Y, <strong>Yu Zhang</strong>, et al. (2023).
+        Modelling and analysis of online ride-sharing platforms — A sustainability perspective.
+        <em>European Journal of Operational Research</em>, 304(2), 577–595.
+        <span class="pub-badge">JCR Q1 · IF 6.0</span>
+      </li>
+      <li>
+        Guo Y, <strong>Yu Zhang</strong>, et al. (2022).
+        Multi-dimensional spatiotemporal demand forecasting and service vehicle dispatching for online car-hailing platforms.
+        <em>International Journal of Production Research</em>, 60(6), 1832–1853.
+        <span class="pub-badge">JCR Q1 · IF 7.3</span>
+      </li>
+      <li>
+        Guo Y, <strong>Yu Zhang</strong>, et al. (2021).
+        Real-time ride-sharing framework with dynamic timeframe and anticipation-based migration.
+        <em>European Journal of Operational Research</em>, 288(3), 810–828.
+        <span class="pub-badge">JCR Q1 · IF 6.0</span>
+      </li>
+    </ul>
+    <p><a href="{{ site.baseurl }}/about#publications-发表成果">→ Full publication list</a></p>
+
+    <hr class="profile-divider" />
+
+    <h2>Recent Posts</h2>
+    <ul class="recent-posts-list">
+      {% for post in site.posts limit:3 %}
+      <li>
+        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    <p><a href="{{ site.baseurl }}/blog">→ All posts</a></p>
+  </div>
 </div>
