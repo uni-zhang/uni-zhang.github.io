@@ -21,7 +21,7 @@ footer-links:
   email: z.y@buaa.edu.cn
   facebook:
   flickr:
-  github: barryclark/jekyll-now
+  github: uni-zhang/uni-zhang.github.io
   instagram:
   linkedin:
   pinterest:
@@ -30,9 +30,9 @@ footer-links:
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
   youtube: # channel/<your_long_string> or user/<user-name>
   googleplus: # anything in your profile username that comes after plus.google.com/
-  researchgate: Zhang-Uni # your ResearchGate profile name from researchgate.net/profile/<name>
-  googlescholar: ykPPoH8AAAAJ # your Google Scholar user ID from scholar.google.com/citations?user=<id>
-  orcid: 0000-0002-1825-0097 # your ORCID iD, e.g. 0000-0002-1825-0097
+  researchgate: Yu-Zhang-531 # your ResearchGate profile name from researchgate.net/profile/<name>
+  googlescholar: P8RzaJIAAAAJ # your Google Scholar user ID from scholar.google.com/citations?user=<id>
+  orcid: 0000-0001-7291-5400 # your ORCID iD, 
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
