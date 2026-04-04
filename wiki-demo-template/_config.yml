@@ -1,0 +1,75 @@
+#
+# Wiki Demo - Jekyll Configuration
+#
+
+# Site name (displayed in the header)
+name: "Wiki Demo"
+
+# Short description
+description: "A comprehensive wiki encyclopedia for our project"
+
+# URL of your logo/avatar
+avatar: /images/wiki-logo.png
+
+# Footer links
+footer-links:
+  github: # your-username/wiki-demo
+  email:  # your@email.com
+
+# Disqus shortname for comments
+disqus:
+
+# Google Analytics
+google_analytics:
+
+# Site URL
+url:
+
+# Base URL (leave empty for User pages, or set "/repo-name" for Project pages)
+baseurl: ""
+
+# Jekyll permalink style
+permalink: /:title/
+
+#
+# Collections - Wiki articles live here
+#
+collections:
+  wiki:
+    output: true
+    permalink: /wiki/:name/
+
+# Default front matter for wiki articles
+defaults:
+  - scope:
+      path: ""
+      type: wiki
+    values:
+      layout: wiki
+
+# Jekyll version
+version: v1.0.0
+
+# Markdown engine
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+  toc_levels: 1..3
+
+# Sass
+sass:
+  style: :expanded
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude from production build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md

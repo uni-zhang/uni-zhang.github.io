@@ -1,0 +1,155 @@
+name: Create wiki-demo Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: 'Repository name'
+        required: true
+        default: 'wiki-demo'
+      description:
+        description: 'Repository description'
+        required: false
+        default: 'A wiki encyclopedia website for our project'
+      private:
+        description: 'Make repository private'
+        required: true
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+jobs:
+  create-wiki-demo:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create wiki-demo repository
+        env:
+          GH_TOKEN: ${{ secrets.WIKI_DEMO_PAT || secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.event.inputs.repo_name }}
+          REPO_DESC: ${{ github.event.inputs.description }}
+          IS_PRIVATE: ${{ github.event.inputs.private }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          echo "Creating repository: $OWNER/$REPO_NAME"
+
+          # Create the new repository
+          HTTP_STATUS=$(curl -s -o /tmp/create_response.json -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/user/repos \
+            -d "{
+              \"name\": \"$REPO_NAME\",
+              \"description\": \"$REPO_DESC\",
+              \"private\": $IS_PRIVATE,
+              \"auto_init\": false,
+              \"has_wiki\": false
+            }")
+
+          cat /tmp/create_response.json
+
+          if [ "$HTTP_STATUS" = "201" ]; then
+            echo "✅ Repository created successfully!"
+          elif [ "$HTTP_STATUS" = "422" ]; then
+            echo "⚠️  Repository may already exist, continuing with file push..."
+          else
+            echo "❌ Failed to create repository (HTTP $HTTP_STATUS)"
+            exit 1
+          fi
+
+      - name: Push wiki-demo template files
+        env:
+          GH_TOKEN: ${{ secrets.WIKI_DEMO_PAT || secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.event.inputs.repo_name }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          # Configure git
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+          # Set up credentials
+          git config --global credential.helper store
+          echo "https://x-access-token:$GH_TOKEN@github.com" > ~/.git-credentials
+
+          # Copy template to temp directory
+          cp -r wiki-demo-template /tmp/wiki-demo-content
+          cd /tmp/wiki-demo-content
+
+          # Initialize git repo
+          git init
+          git checkout -b main
+
+          # Make .gitignore visible for git add
+          git add -f .gitignore
+          git add .
+          git commit -m "Initial wiki-demo setup
+
+          Wiki encyclopedia website built with Jekyll.
+          Based on the Jekyll Now theme with wiki-focused enhancements:
+          - Sidebar navigation auto-generated from article front matter
+          - Articles organized by categories
+          - Table of contents support
+          - Code syntax highlighting
+          - Responsive layout"
+
+          # Push to new repository
+          git remote add origin "https://x-access-token:$GH_TOKEN@github.com/$OWNER/$REPO_NAME.git"
+          git push -u origin main
+
+          echo "✅ Files pushed to $OWNER/$REPO_NAME"
+          echo "🌐 Repository URL: https://github.com/$OWNER/$REPO_NAME"
+
+      - name: Enable GitHub Pages
+        env:
+          GH_TOKEN: ${{ secrets.WIKI_DEMO_PAT || secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.event.inputs.repo_name }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          # Enable GitHub Pages for the new repository
+          HTTP_STATUS=$(curl -s -o /tmp/pages_response.json -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/$OWNER/$REPO_NAME/pages \
+            -d '{
+              "source": {
+                "branch": "main",
+                "path": "/"
+              }
+            }')
+
+          cat /tmp/pages_response.json
+
+          if [ "$HTTP_STATUS" = "201" ]; then
+            echo "✅ GitHub Pages enabled!"
+            echo "🌐 Site will be available at: https://$OWNER.github.io/$REPO_NAME"
+          else
+            echo "ℹ️  Could not auto-enable GitHub Pages (HTTP $HTTP_STATUS)"
+            echo "   Enable it manually in: Settings → Pages → Branch: main"
+          fi
+
+      - name: Summary
+        env:
+          REPO_NAME: ${{ github.event.inputs.repo_name }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          echo "## 🎉 wiki-demo Repository Created!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Repository:** https://github.com/$OWNER/$REPO_NAME" >> $GITHUB_STEP_SUMMARY
+          echo "- **GitHub Pages:** https://$OWNER.github.io/$REPO_NAME" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "1. Update \`_config.yml\` with your site name and description" >> $GITHUB_STEP_SUMMARY
+          echo "2. Replace placeholder content in \`_wiki/\` with your actual documentation" >> $GITHUB_STEP_SUMMARY
+          echo "3. Add your logo to \`images/wiki-logo.png\`" >> $GITHUB_STEP_SUMMARY
+          echo "4. Enable GitHub Pages in repository Settings if not auto-enabled" >> $GITHUB_STEP_SUMMARY
