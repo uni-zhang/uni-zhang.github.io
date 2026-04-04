@@ -1,0 +1,55 @@
+---
+layout: default
+---
+
+<article class="wiki-article">
+  <div class="wiki-article-header">
+    <h1 class="article-title">{{ page.title }}</h1>
+    {% if page.description %}
+    <p class="article-description">{{ page.description }}</p>
+    {% endif %}
+    <div class="article-meta">
+      {% if page.category %}
+      <span class="meta-category">
+        <a href="{{ site.baseurl }}/categories#{{ page.category | slugify }}">{{ page.category }}</a>
+      </span>
+      {% endif %}
+      {% if page.tags %}
+      <span class="meta-tags">
+        {% for tag in page.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </span>
+      {% endif %}
+      {% if page.last_updated %}
+      <span class="meta-updated">Last updated: {{ page.last_updated }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if page.toc != false %}
+  <div class="toc-wrapper">
+    <div class="toc-title">Contents</div>
+    <div class="toc" id="toc">
+      {{ content | toc_generate }}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="wiki-entry">
+    {{ content }}
+  </div>
+
+  <div class="article-footer">
+    {% if page.related %}
+    <div class="related-articles">
+      <h3>Related Articles</h3>
+      <ul>
+        {% for related in page.related %}
+        <li><a href="{{ site.baseurl }}/wiki/{{ related | slugify }}">{{ related }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</article>
